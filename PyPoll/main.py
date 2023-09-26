@@ -11,42 +11,41 @@ with open(election_data, 'r') as csvfile:
 
     # Scdplit the data on commas
     csvreader = csv.reader(csvfile, delimiter=',')
-#code doesn't run if header skip is left out 
+
     header = next(csvreader)
     
     total_votes = 0
     vote_c = 0
     vote_d = 0
     vote_r = 0
-    #create dictionary to hold candidate names
-    candidates = {}
-    for i in csvreader: 
+    #plan was to create 2 dictionaries. One with the 3 candidates and percentage votes recieved, 
+    # the other with the 3 candidates and total votes, however was unable to write syntax so I solved the 
+    #challenge in a roundabout way 
+    
+    for row in csvreader: 
+        
         total_votes = total_votes + 1
-        #WHY SET TO 0?
-        candidates[i[2]] = 0
-
-        if i[2]== "Charles Casper Stockham":
+        
+        if row[2]== "Charles Casper Stockham":
             vote_c = vote_c +1
-        elif i[2] == "Diana DeGette": 
+        elif row[2] == "Diana DeGette": 
             vote_d = vote_d + 1
         else:
             vote_r = vote_r +1
+
+
 perc_c = (vote_c/total_votes)*100 
 perc_d = (vote_d/total_votes)*100 
 perc_r = (vote_r/total_votes)*100 
 
-print(total_votes) 
-candidate_names = candidates.keys()
-print(candidate_names)
-print(vote_c)
-print(vote_d)
-print(vote_r)
-print(perc_c)
-print(perc_d)
-print(perc_r)
-#round percentage
-print(f"Charles Casper Stockham: {str(perc_c)}, {str(vote_c)}")
+output = (
+        f"Election Results\n"
+        f"Total Votes: {total_votes}\n"
+        f"Charles Casper Stockham: {str(perc_c)}%, ({str(vote_c)})\n"
+        f"Diane DeGette: {str(perc_d)}%, ({str(vote_d)})\n"
+        f"Raymon Anthony Doane: {str(perc_r)}%, ({str(vote_r)})"
+            )
 
-#this returns 3
-#candidate_votes = len(candidates.keys())
-#print(candidate_votes)
+print(output)
+
+#unable to print winner because did not successfully manipulate dictionary to find percentage vote each candidate received

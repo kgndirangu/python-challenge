@@ -10,7 +10,8 @@ with open(bank, 'r') as csvfile:
 
     # Scdplit the data on commas
     csvreader = csv.reader(csvfile, delimiter=',')
-    #CODE DOESN'T RUN IF HEADER IS NOT SKIPPED, HOWEVER 2 SKIPS REMOVES 2 ROWS, PLEASE ADVISE  
+    #code doesn't run if header is not skipped, however 2 removes the header and first row of data
+    # leading to underestimate in total amount  
     header = next(csvreader)
     
     #remove first row from amount change calculation
@@ -35,7 +36,7 @@ with open(bank, 'r') as csvfile:
         amount_list.append(int(row[1])) 
         #The changes in profit/losses over the entire period, and then the average of those changes 
         change = int(row[1]) - previous_value
-        #after calculation reset previous value, all subsequent become 0 when reset is in loop
+        #after calculation reset previous value
         previous_value = int(row[1])
         #store change in list
         change_list.append(change)
@@ -43,26 +44,29 @@ with open(bank, 'r') as csvfile:
         
         
         
-#first row = 1088983 is missing from total_amount, PLEASE ADVISE    
+#first row = 1088983 is missing from total_amount, please advise    
 total_amount = sum(amount_list)
-print(total_amount)       
-        
 avg_change = sum(change_list)/len(change_list)
-print(avg_change)
-print(total_month)
 greatest = max(change_list)
-print(greatest)
 least = min(change_list)
-print(least)
 #greatest increase and month
 month_g = change_list.index(max(change_list))
-print(month_g)
 #index 78 based on previous line output
 month_g2 = month_list[78]
-print(month_g2)
 #greatest decrease and month
 month_l = change_list.index(min(change_list))
-print(month_l)
 #index 48 based on previous line output
 month_l2 = month_list[48]
-print(month_l2)
+
+
+
+output = (
+        f"Financial Analysis\n"
+        f"Total Months: {total_month}\n"
+        f"Total: ${total_amount}\n"
+        f"Average Change: ${avg_change}\n"
+        f"Greatest Increase in Profits: {month_g2} (${greatest})\n"
+        f"Greatest Decrease in Profits: {month_l2} (${least})"
+    )
+
+print(output)
